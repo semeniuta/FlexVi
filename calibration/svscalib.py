@@ -3,6 +3,9 @@
 import cv2
 from flexvi.opencv import chessboard
 from flexvi.opencv import calibration
+from flexvi.opencv import stereovision as sv
+from flexvi.calibration.containers.svs import StereoVisionSystem
+from flexvi.opencv.images import get_image_size
 
 DEFAULT_FINDCBC = chessboard.flags['at_or_fq']
 
@@ -21,34 +24,17 @@ class StereoVisionSystemCalibrator:
         self.square_size = square_size            
         
         imc = chessboard.open_images_and_find_corners_universal(imagemasks[0], pattern_size, imagemasks[1], findcbc_flags)
-        self.cres1, self.cres2, self.images1, self.images2 = imc
+        self.cres1, self.cres2, self.images1, self.images2 = imc[:-2]
     
     def calibrate(self):   
         
-        lr_intrinsics = compute_intrinsics(self.images1, self.images2, self.cres1, self.cres2, pattern_size, square_size)    
-        intrinsics_left, intrinsics_right = lr_intrinsics
+        lr_intrinsics = compute_intrinsics(self.images1, self.images2, self.cres1, self.cres2, self.pattern_size, self.square_size)    
+        self.intrinsics1, self.intrinsics2 = lr_intrinsics
                     
-        svs = StereoVisionSystem()    
-        res = sv.calibrate_stereo_vision_system(images_left, images_right, pattern_size, square_size, intrinsics_left, intrinsics_right, corners_left, corners_right)
-        print 'Calibration error: %f' % res[0]
-        
-        print res[5:]    
-        
-        svs.set_calibration_parameters(res)
+        self.svs = StereoVisionSystem()    
+        res = sv.calibrate_stereo_vision_system(self.images1, self.images2, self.pattern_size, self.square_size, self.intrinsics1, self.intrinsics2, self.cres1, self.cres2)
+        self.svs.set_calibration_parameters(res)
             
-        print 'Performing stereo rectification'
-        image_size = images.get_image_size(images_left[0])
-        rect_res = sv.compute_rectification_transforms(intrinsics_left, intrinsics_right, image_size, svs.R, svs.T)
-        svs.set_rectification_transforms(rect_res)    
-        
-        res_dir = create_results_dir()    
-        
-        print 'Saving data'    
-        svs.pickle(os.path.join(res_dir, 'svs.pickle'))
-        
-        if saverect:
-            print 'Rectifying and saving images'
-            new_images = imgtransform.undistort_and_rectify_images_stereo(images_left, images_right, intrinsics_left, intrinsics_right, svs.rotation_matrices, svs.projection_matrices)
-            save_rectified_images(new_images, res_dir)
-        
-        return svs
+        image_size = get_image_size(self.images1[0])
+        rect_res = sv.compute_rectification_transforms(self.intrinsics1, self.intrinsics2, image_size, self.svs.R, self.svs.T)
+        self.svs.set_rectification_transforms(rect_res)

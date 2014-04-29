@@ -17,7 +17,7 @@ class CalibrationImageSet:
     
     @property
     def image_files(self):
-        return glob(self.imagemask)
+        return sorted(glob(self.imagemask))
 
     def __str__(self):
         return 'CalibrationImageSet %s (%s)' % (self.name, self.imagemask)

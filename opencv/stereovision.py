@@ -55,8 +55,8 @@ def calibrate_stereo_vision_system(images_left, images_right, pattern_size, squa
     object_points = calibration.get_object_points(len(lr_images[0]), pattern_size, square_size)    
     
     lr_chessboard_corners_results = [chessboard_corners_results_left, chessboard_corners_results_right]        
-    image_points_left = calibration.get_image_points(lr_images[0], lr_chessboard_corners_results[0])
-    image_points_right = calibration.get_image_points(lr_images[1], lr_chessboard_corners_results[1])
+    image_points_left = calibration.get_image_points(lr_chessboard_corners_results[0])
+    image_points_right = calibration.get_image_points(lr_chessboard_corners_results[1])
     
     lr_image_points = [image_points_left, image_points_right]
     

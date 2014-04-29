@@ -43,7 +43,7 @@ class CameraCalibrationExperiment:
             im = [self.images[i] for i in s]
             co = [self.corners[i] for i in s]
             res = calibration.calibrate_camera(im, self.imageset.pattern_size, self.imageset.square_size, co)        
-            row = calibration.get_intrinsics_as_a_tuple(res)        
+            row = calibration.get_intrinsics_as_a_tuple(res)
             rows.append(row)
         
         self.df = pd.DataFrame(rows, columns=COLNAMES)

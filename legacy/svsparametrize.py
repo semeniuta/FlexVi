@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Legacy module. To be rewritten
+Legacy module. To be rewritten (flexvi.calibration.svscalib)
 '''
 
 import cPickle as pickle

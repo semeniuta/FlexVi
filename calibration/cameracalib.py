@@ -15,7 +15,7 @@ DEFAULT_FINDCBC = chessboard.flags['at_or_fq']
 
 class CameraCalibrator:
     
-    def __init__(self, imset, findcbc_flags=None, indices=None):
+    def __init__(self, imset, indices=None, findcbc_flags=None):
 
         self.images = improcess.open_images_from_mask(imset.imagemask, indices)
         self.pattern_size = imset.pattern_size
