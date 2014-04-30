@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import cv2
 from flexvi.opencv import chessboard
 from flexvi.opencv import calibration
 from flexvi.opencv import stereovision as sv
@@ -16,14 +15,14 @@ def compute_intrinsics(images_left, images_right, corners_left, corners_right, p
 
 class StereoVisionSystemCalibrator:
     
-    def __init__(self, imagemasks, pattern_size, square_size, findcbc_flags=None):
+    def __init__(self, imagemasks, pattern_size, square_size, indices=None, findcbc_flags=None):
         if findcbc_flags is None:
             findcbc_flags = DEFAULT_FINDCBC
             
         self.pattern_size = pattern_size
         self.square_size = square_size            
         
-        imc = chessboard.open_images_and_find_corners_universal(imagemasks[0], pattern_size, imagemasks[1], findcbc_flags)
+        imc = chessboard.open_images_and_find_corners_universal(imagemasks[0], pattern_size, imagemasks[1], findcbc_flags, indices)
         self.cres1, self.cres2, self.images1, self.images2 = imc[:-2]
     
     def calibrate(self):   

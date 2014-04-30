@@ -97,7 +97,7 @@ def open_images_and_find_corners(images_mask, pattern_size, findcbc_flags=None):
     corners_filtered, images_filtered = filter_chessboard_corners_results(chessboard_corners_results, opened_images)
     return corners_filtered, images_filtered
 
-def open_images_and_find_corners_universal(images_mask, pattern_size, images_mask_cam2=None, findcbc_flags=None):
+def open_images_and_find_corners_universal(images_mask, pattern_size, images_mask_cam2=None, findcbc_flags=None, indices=None):
     
     if images_mask_cam2 == None:
         masks = [images_mask]
@@ -109,8 +109,9 @@ def open_images_and_find_corners_universal(images_mask, pattern_size, images_mas
     opened_images_list = []
     corners_res_list = []
     for m in masks:
-        image_files = glob(m)
-        opened_images = open_images_from_mask(m)
+        all_image_files = glob(m)
+        image_files = [all_image_files[ind] for ind in indices]
+        opened_images = open_images_from_mask(m, indices)
         corners_res = find_chessboard_corners(opened_images, pattern_size, findcbc_flags=findcbc_flags) 
         
         image_files_list.append(image_files)
