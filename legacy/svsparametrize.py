@@ -6,7 +6,7 @@ Legacy module. To be rewritten (flexvi.calibration.svscalib)
 
 import cPickle as pickle
 from flexvi.confmanager.cmcalib import CalibrationConfigManager
-from flexvi.calibration.stereovisionsystem import StereoVisionSystem
+from flexvi.calibration.containers.svs import StereoVisionSystem
 from flexvi.opencv import stereovision as sv
 from flexvi.opencv import images
 from flexvi.opencv import chessboard

@@ -32,6 +32,7 @@ class StereoVisionSystemCalibrator:
                     
         self.svs = StereoVisionSystem()    
         res = sv.calibrate_stereo_vision_system(self.images1, self.images2, self.pattern_size, self.square_size, self.intrinsics1, self.intrinsics2, self.cres1, self.cres2)
+        self.rms = res[0]        
         self.svs.set_calibration_parameters(res)
             
         image_size = get_image_size(self.images1[0])
