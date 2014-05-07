@@ -1,24 +1,28 @@
 # -*- coding: utf-8 -*-
 
 '''
-Remove outliers from the pairs of the (R, V) pairs
-needed for further hand-eye calibration
+Functions for manipulations of hand-eye pose and move pairs 
 '''
 
 import numpy as np
 
-def read_poses(pairs_datafile):
+def read_poses(datafile):
     '''
-    Read data file with (R, V) pairs in Math3D format
+    Read data file with pose pairs (R, V) in Math3D format
     '''    
-    pairs = np.load(pairs_datafile)
+    pairs = np.load(datafile)
     return pairs  
     
 def compute_moves(pairs):
     ''' 
-    Calculate A and B matrices for each of the (R, V) pairs:
+    Calculate move pairs (A, B) for each of the pose pairs:
+
     Ai = inv(Ri-1) * Ri
+    Bi = inv(Vi-1) * Vi
+    
+    It is assumed that V transfomation is from the camera to the object
     '''
+
     res_AB = []
     res_pairs = []
     
@@ -40,8 +44,8 @@ def compute_moves(pairs):
 
 def read_poses_and_compute_moves(pairs_datafile):
     ''' 
-    Read the (R, V) pairs from the datafiles and calculate
-    the corresponding (A, B) pairs using the specified function
+    Read pose pairs from the datafiles and calculate
+    the corresponding move pairs
     '''
     pairs = read_poses(pairs_datafile)
     AB, AB_pairs = compute_moves(pairs)
@@ -49,10 +53,13 @@ def read_poses_and_compute_moves(pairs_datafile):
     
 def eval_moves(AB, X, eval_func):
     ''' 
-    Calculate norms for the given pairs of A and B matrices
-    and the corresponding result of hand-eye calibration.
+    For each move pair evalueate the quality of sensor-in-flange
+    transofrmation X using the specified evaluation function     
     
-    The argumets are supplied in Math3D format.
+    Arguments:
+    AB - move pairs in Math3D format
+    X - sensor-in-flange transfotmation in Math3D format
+    eval_func - function used to compare transfotmations AX and XB
     
     Returns a list of matrices [A*X - X*B] (in NumPy format) 
     and the corresponding norms. 
