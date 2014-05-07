@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ''' 
-Recalculate the calibration results using ParkMartinCalibrator
-after removing outliers
+Filter out move pairs
 '''
     
 def filter_pairs(iterable, criterion):
