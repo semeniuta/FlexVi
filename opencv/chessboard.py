@@ -110,7 +110,10 @@ def open_images_and_find_corners_universal(images_mask, pattern_size, images_mas
     corners_res_list = []
     for m in masks:
         all_image_files = glob(m)
-        image_files = [all_image_files[ind] for ind in indices]
+        if indices is None:
+            image_files = all_image_files
+        else:
+            image_files = [all_image_files[ind] for ind in indices]
         opened_images = open_images_from_mask(m, indices)
         corners_res = find_chessboard_corners(opened_images, pattern_size, findcbc_flags=findcbc_flags) 
         
