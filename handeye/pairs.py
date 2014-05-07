@@ -7,14 +7,14 @@ needed for further hand-eye calibration
 
 import numpy as np
 
-def read_pairs(pairs_datafile):
+def read_poses(pairs_datafile):
     '''
     Read data file with (R, V) pairs in Math3D format
     '''    
     pairs = np.load(pairs_datafile)
     return pairs  
     
-def calc_AB(pairs):
+def compute_moves(pairs):
     ''' 
     Calculate A and B matrices for each of the (R, V) pairs:
     Ai = inv(Ri-1) * Ri
@@ -38,16 +38,16 @@ def calc_AB(pairs):
     
     return res_AB, res_pairs
 
-def read_pairs_and_calc_AB(pairs_datafile):
+def read_poses_and_compute_moves(pairs_datafile):
     ''' 
     Read the (R, V) pairs from the datafiles and calculate
     the corresponding (A, B) pairs using the specified function
     '''
-    pairs = read_pairs(pairs_datafile)
-    AB, AB_pairs = calc_AB(pairs)
+    pairs = read_poses(pairs_datafile)
+    AB, AB_pairs = compute_moves(pairs)
     return pairs, AB, AB_pairs   
     
-def calc_norms(AB, X, norm_func):
+def eval_moves(AB, X, eval_func):
     ''' 
     Calculate norms for the given pairs of A and B matrices
     and the corresponding result of hand-eye calibration.
@@ -62,7 +62,7 @@ def calc_norms(AB, X, norm_func):
     for A, B in AB:        
         AX = A * X        
         XB = X * B
-        norm = norm_func(AX, XB)
+        norm = eval_func(AX, XB)
         
         norms.append(norm)
             
