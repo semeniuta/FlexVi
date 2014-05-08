@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from flexvi.opencv import chessboard
 from flexvi.opencv import calibration
 from flexvi.opencv import stereovision as sv
 from flexvi.calibration.containers.svs import StereoVisionSystem
@@ -18,12 +17,12 @@ class StereoVisionSystemCalibrator:
     def _compute_best_intrinsics(self, sample_size, nsamples):
                     
     
-        ''' 1. Generate samples '''
+        ''' Generate samples '''
         nimages = len(self.corners_finder.images1)
         samples = sampling.generate_list_of_samples(nimages, sample_size, nsamples)
         
         ''' 
-        4. For each of the samples conduct camera calibration only for 
+        For each of the samples conduct camera calibration only for 
         the first camera
         '''
         
@@ -39,7 +38,7 @@ class StereoVisionSystemCalibrator:
             calib1_results.append(res)
             
         '''
-        5. Find the sample number that leads to the smallest error of
+        Find the sample number that leads to the smallest error of
         camera calibration (RMS)
         '''
         min_error_index = 0    
@@ -49,7 +48,7 @@ class StereoVisionSystemCalibrator:
         print 'Calib1 RMS: %.3f' % calib1_results[min_error_index][0]
               
         ''' 
-        6. Select the intirnsics results (camera 1) for the best calibration
+        Select the intirnsics results (camera 1) for the best calibration
         and compute intrinsics for the second camera using the same 
         images sample
         '''

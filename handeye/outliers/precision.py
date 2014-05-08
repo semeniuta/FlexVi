@@ -47,33 +47,31 @@ def precision_test(noe, top_limits, components=COLNAMES):
     vars_1 = []
     vars_2 = []    
     
-    for tlim in top_limits:    
+    to_delete = []
+    for i in range(len(top_limits)):
+        tlim = top_limits[i]
         noe.remove_outliers(tlim)
+        if len(noe.filtered_indices) < 3:
+            print 'Too few moves: %d' % len(noe.filtered_indices)
+            to_delete.append(i)
+            continue
+        
+        noe.recalibrate()        
         current_vars_1 = get_variances(noe.old_object_in_base, components)               
         current_vars_2 = get_variances(noe.new_object_in_base, components)               
         vars_1.append(current_vars_1)
         vars_2.append(current_vars_2)
+    
+    top_limits_2 = []
+    for i in range(len(top_limits)):
+        if i not in to_delete:
+            top_limits_2.append(top_limits[i])
             
-    vars_df_1 = pd.DataFrame(np.array(vars_1), columns=components, index=top_limits)        
-    vars_df_2 = pd.DataFrame(np.array(vars_2), columns=components, index=top_limits)    
+    vars_df_1 = pd.DataFrame(np.array(vars_1), columns=components, index=top_limits_2)        
+    vars_df_2 = pd.DataFrame(np.array(vars_2), columns=components, index=top_limits_2)    
     
-    return vars_df_1, vars_df_2
+    return vars_df_1, vars_df_2, top_limits_2
     
-def abs_value_test(noe, top_limits, components=COLNAMES):
-    means_1 = []
-    means_2 = []    
-    
-    for tlim in top_limits:    
-        noe.remove_outliers(tlim)
-        current_means_1 = get_means(noe.old_object_in_base, components)               
-        current_means_2 = get_means(noe.new_object_in_base, components)               
-        means_1.append(current_means_1)
-        means_2.append(current_means_2)
-            
-    means_df_1 = pd.DataFrame(np.array(means_1), columns=components, index=top_limits)        
-    means_df_2 = pd.DataFrame(np.array(means_2), columns=components, index=top_limits)    
-    
-    return means_df_1, means_df_2
     
     
     
