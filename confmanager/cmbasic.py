@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Configuration manager for SintefCV
+Configuration manager for FlexVi
 
 In the files where reading configuraion is needed, the usage of
 the configuration manager is the following:
