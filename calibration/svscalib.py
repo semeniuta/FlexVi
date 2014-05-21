@@ -8,12 +8,42 @@ from flexvi.dataanalysis import sampling
 
 class StereoVisionSystemCalibrator:
     
+    '''
+    Usage:
+    cfinder = ChessboardCornersFinder(imset1, imset2)
+    cal = StereoVisionSystemCalibrator(cfinder)
+    cal.calibrate()
+    
+    To access the results:    
+    cal.svs - parametrized StereoVisionSystem object
+    '''
+    
     def __init__(self, corners_finder, sample_size=10, nsamples=5):
             
         self.corners_finder = corners_finder
 
         self._compute_best_intrinsics(sample_size, nsamples)            
                 
+    def calibrate(self):   
+        
+        self.svs = StereoVisionSystem()  
+        
+        psize = self.corners_finder.pattern_size
+        sqsize = self.corners_finder.square_size
+        im1 = self.corners_finder.images1
+        im2 = self.corners_finder.images2
+        c1 = self.corners_finder.cres1
+        c2 = self.corners_finder.cres2
+
+        res = sv.calibrate_stereo_vision_system(im1, im2, psize, sqsize, self.intrinsics1, self.intrinsics2, c1, c2)
+
+        self.rms = res[0]        
+        self.svs.set_calibration_parameters(res)
+            
+        image_size = get_image_size(self.images1[0])
+        rect_res = sv.compute_rectification_transforms(self.intrinsics1, self.intrinsics2, image_size, self.svs.R, self.svs.T)
+        self.svs.set_rectification_transforms(rect_res)
+    
     def _compute_best_intrinsics(self, sample_size, nsamples):
                     
     
@@ -63,22 +93,4 @@ class StereoVisionSystemCalibrator:
         self.images1 = [self.corners_finder.images1[ind] for ind in s]
         self.images2 = im2
             
-    def calibrate(self):   
-        
-        self.svs = StereoVisionSystem()  
-        
-        psize = self.corners_finder.pattern_size
-        sqsize = self.corners_finder.square_size
-        im1 = self.corners_finder.images1
-        im2 = self.corners_finder.images2
-        c1 = self.corners_finder.cres1
-        c2 = self.corners_finder.cres2
-
-        res = sv.calibrate_stereo_vision_system(im1, im2, psize, sqsize, self.intrinsics1, self.intrinsics2, c1, c2)
-
-        self.rms = res[0]        
-        self.svs.set_calibration_parameters(res)
-            
-        image_size = get_image_size(self.images1[0])
-        rect_res = sv.compute_rectification_transforms(self.intrinsics1, self.intrinsics2, image_size, self.svs.R, self.svs.T)
-        self.svs.set_rectification_transforms(rect_res)
+    

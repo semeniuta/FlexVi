@@ -16,6 +16,18 @@ DEFAULT_FINDCBC = chessboard.flags['at_or_fq']
 
 class FixedPoseCalibrator:
     
+    '''
+    Usage:
+    
+    cal = FixedPoseCalibrator(img, pattern_size, square_size, intrinsics)
+    cal.calibrate()
+    
+    To access the results:
+    cal.rotation
+    cal.translation
+    cal.homography_matrix
+    '''
+    
     def __init__(self, img, pattern_size, square_size, intrinsics):
         self.chessboard_image = improcess.open_image(img)
         self.pattern_size = pattern_size

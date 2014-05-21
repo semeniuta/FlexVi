@@ -3,7 +3,7 @@
 from flexvi.opencv import chessboard
 
 class ChessboardCornersFinder:
-    
+
     def __init__(self, imset1, imset2=None):
         self.imset1 = imset1
         self.imset2 = imset2    
