@@ -7,6 +7,7 @@ Library structure:
 
 
 | Package | Description |
+| --- | --- |
 | flexvi | The root package |
 | flexvi.calibration | Vision calibration functionality |
 | flexvi.calibration.containers | Classes-containers related to vision calibration |
