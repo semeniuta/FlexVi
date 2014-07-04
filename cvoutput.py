@@ -5,7 +5,7 @@ def plot_image(image, show_in_grayscale=True):
     Displays the image using Matplotlib figure
     '''    
     plt.figure()
-    plt.imshow(image)
+    plt.imshow(image)  
     if show_in_grayscale:
         plt.gray()
     
@@ -18,7 +18,7 @@ def create_and_save_histogram(data, nbins, title, filename):
     return res
     
 def create_histogram(data, nbins, title=None):
-    plt.figure()    
+    plt.figure()
     res = plt.hist(data, nbins)
     if not title == None:
         plt.title(title)
@@ -51,6 +51,7 @@ def plot_image_histogram(image, nbins=128, title=None):
     
 def plot_several_image_histograms(images, names=None, nbins=128):    
     nimages = len(images)
+    plt.figure()
     for i in range(nimages):
         plt.subplot(nimages, 1, i+1)
         plot_image_histogram(images[i], nbins, names[i])    
