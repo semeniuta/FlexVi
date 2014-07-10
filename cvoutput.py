@@ -1,3 +1,7 @@
+'''
+A legacy output module. To be replaced with gui.pf.PlotFigure
+'''
+
 import matplotlib.pyplot as plt
 
 def plot_image(image, show_in_grayscale=True):
