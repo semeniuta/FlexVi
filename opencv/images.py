@@ -7,26 +7,22 @@ import mimetypes
 from glob import glob
 import cv2
 
-def open_image(image_file):
-    return cv2.imread(image_file, flags=cv2.CV_LOAD_IMAGE_GRAYSCALE)
+def open_image_opencv(image_file, gray=True):
+    if gray:
+        return cv2.imread(image_file, flags=cv2.IMREAD_GRAYSCALE)
+    else:
+        return cv2.imread(image_file)
+    
 
-def open_image_pil(image_file, convert_option='L', return_as_array=True):
+def open_image(image_file, gray=True):
     ''' 
     Opens an image file specified as a string
-    
-    Arguments:
-    image_file -- path to the image file
-    convert_option -- convert option applied to PIL.Image object
-                      (default 'L' - grayscale)
-    return_as_array -- if True, the array of pixels is returned, otherwise - 
-                       a PIL.Image object
     '''
-    image = Image.open(image_file).convert(convert_option)
-    if return_as_array:
-        return np.array(image)
-    else:
-        return image
-            
+    im = Image.open(image_file)
+    if gray:
+        im = im.convert('L')
+    return np.array(im)
+
 def open_images_from_dir(directory):
     '''
     Open images from the specified directory and returns a list of pixel arrays

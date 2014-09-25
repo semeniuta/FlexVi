@@ -18,6 +18,7 @@ class PlotFigure:
             ax.imshow(image, cm.gray)
         else:
             ax.imshow(image)
+        return ax
     
     def histogram(self, data, nbins, subplot=111, title=None):
         ax = self.fig.add_subplot(subplot)
@@ -26,6 +27,15 @@ class PlotFigure:
             ax.title(title)
         return res
         
+    def point(self, pt, color='r'):
+        plt.plot([pt[0]], [pt[1]], color + 'o')
+        
+    def circle(self, center, radius, color='r'):
+        print center, radius, color
+        artist = plt.Circle(center, radius, edgecolor=color, fill=False)
+        fig = plt.gcf()
+        fig.gca().add_artist(artist)
+            
     def show(self):
         plt.show()
         
