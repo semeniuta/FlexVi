@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from flexvi.opencv.images import get_image_size
+from flexvi.core.images import get_image_size
 
 def calibrate_camera(images, pattern_size, square_size, chessboard_corners_results):
     '''

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from flexvi.opencv import calibration
-from flexvi.opencv import images
+from flexvi.core.opencv import calibration
+from flexvi.core.opencv import images
 import cv2
 import numpy as np
 

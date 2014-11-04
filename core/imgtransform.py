@@ -2,7 +2,7 @@
 
 import numpy as np
 import cv2
-from flexvi.opencv.images import get_image_size
+from flexvi.core.opencv.images import get_image_size
 
 def undistort_images(images, intrinsics):
     ''' 
