@@ -37,10 +37,9 @@ class CameraCalibrator:
             self.findcbc_flags = DEFAULT_FINDCBC
         else:
             self.findcbc_flags = findcbc_flags
-            
-        self._find_corners()
     
-    def calibrate(self):        
+    def calibrate(self): 
+        self._find_corners()
         self.calib_res = calibration.calibrate_camera(self.images, self.pattern_size, self.square_size, self.cres)
         intrinsics = self.calib_res[1:3]
         self.camera = Camera(intrinsics)

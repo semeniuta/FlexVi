@@ -3,7 +3,7 @@
 from glob import glob
 
 class CalibrationImageSet:
-    def __init__(self, name, imagemask, pattern_size, square_size):
+    def __init__(self, name='', imagemask='*', pattern_size=(0, 0), square_size=0.0):
         self.name = name  
         self.imagemask = imagemask
         self.pattern_size = pattern_size
