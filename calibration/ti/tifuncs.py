@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from scipy import stats
-from flexvi.opencv import calibration
+from flexvi.core import calibration
 from flexvi.calibration.ti import calibexp
 
 def construct_intrinsics(ti_values):

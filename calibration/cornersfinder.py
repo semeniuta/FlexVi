@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flexvi.opencv import chessboard
+from flexvi.core import chessboard
 
 class ChessboardCornersFinder:
 

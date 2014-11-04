@@ -2,7 +2,7 @@
 
 from flexvi.confmanager.cmbasic import BasicConfigManager
 from flexvi.calibration.containers.imageset import CalibrationImageSet
-from flexvi.opencv import chessboard
+from flexvi.core import chessboard
 import os
 
 class CalibrationConfigManager(BasicConfigManager):

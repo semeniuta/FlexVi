@@ -7,9 +7,9 @@ using a predefined set of images or all images from the set
 @author: Oleksandr Semeniuta
 '''
 
-from flexvi.opencv import chessboard
-from flexvi.opencv import calibration
-from flexvi.opencv import images as improcess
+from flexvi.core import chessboard
+from flexvi.core import calibration
+from flexvi.core import images as improcess
 from flexvi.calibration.containers.camera import Camera
 
 DEFAULT_FINDCBC = chessboard.flags['at_or_fq']

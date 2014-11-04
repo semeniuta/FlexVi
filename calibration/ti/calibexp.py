@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flexvi.opencv import calibration
-from flexvi.opencv import chessboard
+from flexvi.core import calibration
+from flexvi.core import chessboard
 from flexvi.dataanalysis import sampling
 import pandas as pd
 import cPickle as pickle

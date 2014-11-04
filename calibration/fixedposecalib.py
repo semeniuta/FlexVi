@@ -8,9 +8,9 @@ a camera
 
 import numpy as np
 import cv2
-from flexvi.opencv import chessboard
-from flexvi.opencv import images as improcess
-from flexvi.opencv import calibration
+from flexvi.core import chessboard
+from flexvi.core import images as improcess
+from flexvi.core import calibration
 
 DEFAULT_FINDCBC = chessboard.flags['at_or_fq']
 
