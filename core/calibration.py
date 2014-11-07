@@ -30,7 +30,7 @@ def calibrate_camera(images, pattern_size, square_size, chessboard_corners_resul
     object_points = get_object_points(len(images), pattern_size, square_size)
     image_points = get_image_points(chessboard_corners_results)
      
-    res = cv2.calibrateCamera(object_points, image_points, image_size)
+    res = cv2.calibrateCamera(object_points, image_points, image_size, None, None)
     return res
         
 def get_image_points(chessboard_corners_results):
