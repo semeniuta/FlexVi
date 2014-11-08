@@ -29,7 +29,8 @@ class FixedPoseCalibrator:
     '''
     
     def __init__(self, img, pattern_size, square_size, intrinsics):
-        self.chessboard_image = improcess.open_image(img)
+        #self.chessboard_image = improcess.open_image(img)
+        self.chessboard_image = img
         self.pattern_size = pattern_size
         self.square_size = square_size
         self._specify_camera_intrinsics(intrinsics)

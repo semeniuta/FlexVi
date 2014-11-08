@@ -108,7 +108,7 @@ def camera_matrix_to_tuple(camera_matrix):
     cx = camera_matrix[0, 2]
     cy = camera_matrix[1, 2]
     
-    return (fx, fy, cx, cy)
+    return (fx, fy, cx, cy)    
     
 def get_camera_matrix_from_tuple(params):
     '''
@@ -125,4 +125,22 @@ def get_camera_matrix_from_tuple(params):
     cm[2, 2] = 1
     
     return cm
+    
+def get_intrinsics_from_tuple(params):
+    '''
+    A tuple or other sequnce of intrinsic parameters 
+    with or without RMS is supplied:
+     - rms, fx, fy, cx, cy, k1, k2, p1, p2, k3 
+     -      fx, fy, cx, cy, k1, k2, p1, p2, k3 
+
+    A tuple (cm, df) with the camera matrix and distoetion coefficients is returned
+    '''
+    
+    if len(params) == 10:
+        params = params[1:]
+    
+    cm = get_camera_matrix_from_tuple(params[:4])
+    df = tuple(params[4:])
+    return (cm, df)
+    
     
