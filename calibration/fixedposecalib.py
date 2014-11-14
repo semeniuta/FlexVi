@@ -52,9 +52,8 @@ class FixedPoseCalibrator:
         cres = chessboard.find_chessboard_corners_on_image(self.chessboard_image, self.pattern_size, findcbc_flags=findcbc_flags)
         success, corners_mat = cres
         if success:
-            self.corners_opencv = cres
-            self.corners_list = chessboard.chessboard_corners_maxtrix_to_lists(corners_mat)
-    
+            self.corners_mat = corners_mat
+            
     def _set_results(self, rvec, tvec):
         self.rotation = cv2.Rodrigues(rvec)[0]
         self.translation = tvec
@@ -64,12 +63,20 @@ class FixedPoseCalibrator:
         ''' H = sM[r1 r2 t] '''
         modified_transform = np.hstack((self.rotation[:,:-1], self.translation))
         self.homography_matrix = np.dot(self.camera_matrix, modified_transform)
+        
+        #corners2 = cv2.undistortPoints(self.corners_mat, self.camera_matrix, self.dist_coefs)
+        self.homography_matrix2, _ = cv2.findHomography(self.object_points, self.corners_mat)
+        '''
+        If H is obtained from intrinsic and extrinsic parameters (homography_matrix),
+        distortion is probably taken into accound
+        If cv2.findHomography is used, it should be assumed that the image is
+        undistorted in advance
+        '''
     
     def _solve_pnp(self):
-        object_points = calibration.get_object_points(1, self.pattern_size, self.square_size)[0]        
-        image_points = self.corners_opencv[1].reshape(-1, 2)
+        self.object_points = calibration.get_object_points(1, self.pattern_size, self.square_size)[0]        
+        image_points = self.corners_mat.reshape(-1, 2)
         
-        pnp_res = cv2.solvePnP(object_points, image_points, self.camera_matrix, self.dist_coefs)
+        pnp_res = cv2.solvePnP(self.object_points, image_points, self.camera_matrix, self.dist_coefs)
         rms, rvecs, tvecs = pnp_res
         self._set_results(rvecs, tvecs)
-    
