@@ -19,3 +19,36 @@ def find_ti(data):
         ti_values.append(m)
     
     return ti_values
+    
+def norm_fit(df):
+        
+    means = []
+    s_deviations = []
+    
+    for c in calibexp.COLNAMES[1:]:
+        d = df[c]    
+        
+        m, sd = stats.norm.fit(d)
+        
+        means.append(m)
+        s_deviations.append(sd)
+    
+    return means, s_deviations
+    
+    
+def find_outliers(df, means, s_deviations):
+    colnames = calibexp.COLNAMES[1:]    
+    outliers = []
+    for row in df.index:
+        for col in colnames:
+            val = df.loc[row][col]
+            i = colnames.index(col)            
+            m = means[i]
+            sd = s_deviations[i]
+            low_lim = m - 3 * sd
+            top_lim = m + 3 * sd
+            if val < low_lim or val > top_lim:
+                print 'Bad row found: %s=%f lies outside [%f, %f]' % (col, val, low_lim, top_lim)
+                outliers.append(row)
+                break
+    return outliers
