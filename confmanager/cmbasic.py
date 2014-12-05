@@ -6,8 +6,8 @@ Configuration manager for FlexVi
 In the files where reading configuraion is needed, the usage of
 the configuration manager is the following:
     
-    from cvapplications.confmanager import ConfigManager
-    cm = ConfigManager()
+    from flexvi.confmanager.cmbasic import BasicConfigManager
+    cm = BasicConfigManager()
 
 @author: Oleksandr Semeniuta 
 '''
