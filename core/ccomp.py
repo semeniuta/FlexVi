@@ -4,15 +4,15 @@ import cv2
 import pandas as pd
 import numpy as np
 
-def find_blobs(im, *args, **kvargs):
+def find_ccomp(im, *args, **kvargs):
     
-    n_blobs, labels, stats, centroids = cv2.connectedComponentsWithStats(im, *args, **kvargs)
+    num, labels, stats, centroids = cv2.connectedComponentsWithStats(im, *args, **kvargs)
     stats_df = pd.DataFrame(stats, columns=['left', 'top', 'width', 'height', 'area'])
     stats_df['x'] = centroids[:,0]
     stats_df['y'] = centroids[:,1]
     return labels, stats_df
     
-def filter_blobs(stats, min_area=None, max_area=None):
+def filter_ccomp(stats, min_area=None, max_area=None):
     if min_area == max_area == None:
         return stats
     
