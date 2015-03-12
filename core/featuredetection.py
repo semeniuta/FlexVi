@@ -22,7 +22,10 @@ def threshold_adaptive(image, method_key='gaussian', maxval=256, block_size=3, c
     
 def hough_circles(image, dp=2, min_dist=50):
     res = cv2.HoughCircles(image, cv2.HOUGH_GRADIENT, dp, min_dist)
-    return [([x, y], radius) for x, y, radius in res[0]]
+    if res is None:
+        return None
+    else:
+        return [([x, y], radius) for x, y, radius in res[0]]
     
 def detect_circles_as_blobs(image):
     '''
