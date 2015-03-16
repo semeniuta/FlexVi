@@ -15,10 +15,10 @@ def unpickle_calibexp(filename):
 
 class CameraCalibrationExperiment:
     
-    def __init__(self, imset, sample_size, nsamples):
+    def __init__(self, imset, set_size, nsets):
         self.imageset = imset
-        self.sample_size = sample_size
-        self.nsamples = nsamples
+        self.set_size = set_size
+        self.nsets = nsets
         self.df = None
         self.images = None
         self.corners = None
@@ -26,18 +26,19 @@ class CameraCalibrationExperiment:
     def set_corners_and_images(self, corners, images):
         self.corners = corners
         self.images = images
-    
-    def conduct_experiment(self):
         
+    def generate_subsets(self):
         if self.images is None and self.corners is None:
             print 'Images and corners not provided. Opening images and finding corners'
-            self.corners, self.images = chessboard.open_images_and_find_corners(self.imageset.imagemask, self.imageset.pattern_size, self.imageset.findcbc_flags)
+            self.corners, self.images = chessboard.open_images_and_find_corners(self.imageset.imagemask, self.imageset.pattern_size, self.imageset.findcbc_flags)                
+        nimages = len(self.images)
         
-        nimages = len(self.images)        
-        self.samples = sampling.generate_list_of_samples(nimages, self.sample_size, self.nsamples)
-        
+        self.subsets = sampling.generate_list_of_samples(nimages, self.set_size, self.nsets)
+    
+    def conduct_experiment(self):
+                        
         rows = []
-        for s in self.samples:
+        for s in self.subsets:
             print s
             
             im = [self.images[i] for i in s]
