@@ -7,6 +7,7 @@ import pandas as pd
 import cPickle as pickle
 
 COLNAMES = ['rms', 'fx', 'fy', 'cx', 'cy', 'k1', 'k2', 'p1', 'p2', 'k3']
+INTRINSICS = COLNAMES[1:]
 
 def unpickle_calibexp(filename):
     with open(filename, 'rb') as f:

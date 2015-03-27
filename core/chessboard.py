@@ -2,7 +2,7 @@
 
 import cv2
 from flexvi import cvoutput
-from flexvi.core.images import open_images_from_mask
+from flexvi.core.images import open_images_from_mask, open_image
 from glob import glob
 
 flags = {
@@ -87,7 +87,7 @@ def filter_chessboard_corners_results_stereo(chessboard_corners_results_left, ch
 
 def open_images_and_find_corners(images_mask, pattern_size, findcbc_flags=None):
     ''' 
-    Open the images and find chessboard corners on them. 
+    Open the images from the given image mask and find chessboard corners on them. 
     Then filter out the images (and corresponding corners)
     that failed during the cv2.findChessboardCorners call 
     '''
@@ -96,6 +96,15 @@ def open_images_and_find_corners(images_mask, pattern_size, findcbc_flags=None):
           
     corners_filtered, images_filtered = filter_chessboard_corners_results(chessboard_corners_results, opened_images)
     return corners_filtered, images_filtered
+    
+def open_images_and_find_corners_from_imagelist(imagelist, pattern_size, findcbc_flags=None):
+   
+    opened_images = [open_image(im) for im in imagelist]
+    chessboard_corners_results = find_chessboard_corners(opened_images, pattern_size, findcbc_flags=findcbc_flags)
+          
+    corners_filtered, images_filtered = filter_chessboard_corners_results(chessboard_corners_results, opened_images)
+    return corners_filtered, images_filtered
+
 
 def open_images_and_find_corners_universal(images_mask, pattern_size, images_mask_cam2=None, findcbc_flags=None, indices=None):
     
