@@ -12,17 +12,11 @@ def construct_intrinsics(ti_values):
     return res
 
 def find_ti(data):
-    '''
-    An older version of TI finder
-    '''
     
-    ti_values = []
-    for c in calibexp.COLNAMES[1:]:
-        d = data[c]    
-        m, sd = stats.norm.fit(d)
-        ti_values.append(m)
+    m, sd = norm_fit(data)
+    dfg, mg, sdg = six_sigma_loop(data, m, sd)
     
-    return ti_values
+    return mg
     
 def find_ti_cm(data):
     '''
@@ -30,9 +24,7 @@ def find_ti_cm(data):
     Return TI as a camera matrix
     '''
     
-    m, sd = norm_fit(data)
-    dfg, mg, sdg = six_sigma_loop(data, m, sd)
-    
+    mg = find_ti(data)
     cm, df = calibration.get_intrinsics_from_tuple(mg)    
     
     return cm, df
