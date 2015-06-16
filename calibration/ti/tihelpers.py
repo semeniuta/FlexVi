@@ -7,10 +7,10 @@ from flexvi.core import chessboard, calibration
 import cv2
 import numpy as np
 from numpy import sqrt, mean, square
+import pandas as pd
 
 def unpickle_experiment(pfile):
-    with open(pfile, 'rb') as f:
-        df, subsets = pickle.load(f)
+    df, subsets = pd.read_pickle(pfile)
     return df, subsets
 
 def plot_data_histograms(df): 
@@ -61,7 +61,12 @@ def compare_intrinsics(imset, all_images, all_corners, indices, params_variants)
             impoints2 = get_projected_impoints(cm, dc, objpoints, impoints)
 
             diff = impoints - impoints2
-            rms_val = mean(sqrt(square(diff)))
+            
+            # OLD and wrong
+            #rms_val = mean(sqrt(square(diff)))
+            
+            squared_distances = np.sum(np.square(diff), axis=1)
+            rms_val = sqrt(mean(squared_distances))
 
             rms[i].append(rms_val) 
     
