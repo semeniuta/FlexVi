@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+'''
+This module is depecated and will be replaced
+with a workable image grabber package having more consistent API 
+'''
+
+
 from glob import glob
 from flexvi.core.images import open_image
 
