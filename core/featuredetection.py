@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+'''
+A legacy module. Shall be replaced by serveral new modules
+for image processing and feature detection
+'''
+
 import cv2
 from flexvi import cvoutput
 from matplotlib import pyplot as plt

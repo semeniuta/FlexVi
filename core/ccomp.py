@@ -3,6 +3,8 @@
 import cv2
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
+from flexvi import cvoutput
 
 def find_ccomp(im, *args, **kvargs):
     
@@ -25,10 +27,22 @@ def filter_ccomp(stats, min_area=None, max_area=None):
     return stats_filtered
     
 def one_label(labels, num):
-    rows, cols = labels.shape
-    res = np.zeros(labels.shape)
-    for r in range(rows):
-        for c in range(cols):
-            if labels[r, c] == num:
-                res[r, c] = 255
-    return res
+    return labels == num
+
+def get_bbox_subimage(im, stats, i):
+    left, top = stats.ix[i].left, stats.ix[i].top
+    w, h = stats.ix[i].width, stats.ix[i].height
+    return im[int(top):int(top+w), int(left):int(left+h)]
+
+def show_ccomp(stats):
+
+    for i in stats.index:
+
+        x, y = stats.ix[i].x, stats.ix[i].y
+        left, top = stats.ix[i].left, stats.ix[i].top
+        w, h = stats.ix[i].width, stats.ix[i].height
+
+        cvoutput.plot_point((x, y), 'y')
+        plt.text(x, y, i, color='y')
+
+        points = [(left, top), (left+w, top), (left+w, top+h), (left, top+h)]

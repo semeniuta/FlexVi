@@ -12,7 +12,7 @@ class CalibrationConfigManager(BasicConfigManager):
 
         width = self.imgconfig.getint(imageset_name, 'width')
         height = self.imgconfig.getint(imageset_name, 'height')
-        pattern_size = (height, width)
+        pattern_size = (width, height)
         square_size = self.imgconfig.getfloat(imageset_name, 'square')
 
         imageset = CalibrationImageSet(imageset_name, imagemask, pattern_size, square_size)
