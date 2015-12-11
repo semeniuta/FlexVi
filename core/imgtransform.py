@@ -81,3 +81,8 @@ def undistort_and_rectify_images_stereo(images_left, images_right, intrinsics_le
     images_right_rect = [cv2.remap(img, maps_right[0], maps_right[1], interp_method) for img in images_right]    
     
     return (images_left_rect, images_right_rect)
+
+
+def bilinear_interp(im, p):
+    res = cv2.getRectSubPix(im, (1, 1), tuple(p))
+    return res[0, 0]

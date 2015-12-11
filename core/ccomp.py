@@ -34,7 +34,14 @@ def get_bbox_subimage(im, stats, i):
     w, h = stats.ix[i].width, stats.ix[i].height
     return im[int(top):int(top+w), int(left):int(left+h)]
 
-def show_ccomp(stats):
+def get_subimages(im, ccomp_stats):
+
+    subimages = []
+    for i in ccomp_stats.index:
+        subimages.append(get_bbox_subimage(im, ccomp_stats, i))
+    return subimages
+
+def show_centroids(stats):
 
     for i in stats.index:
 
@@ -44,5 +51,3 @@ def show_ccomp(stats):
 
         cvoutput.plot_point((x, y), 'y')
         plt.text(x, y, i, color='y')
-
-        points = [(left, top), (left+w, top), (left+w, top+h), (left, top+h)]
