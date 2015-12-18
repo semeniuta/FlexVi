@@ -3,7 +3,7 @@
 from flexvi.core import calibration
 from flexvi.core import stereovision as sv
 from flexvi.calibration.containers.svs import StereoVisionSystem
-from flexvi.opencv.images import get_image_size
+from flexvi.core.images import get_image_size
 from flexvi.dataanalysis import sampling
 
 class StereoVisionSystemCalibrator:

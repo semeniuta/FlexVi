@@ -70,7 +70,8 @@ def calibrate_stereo_vision_system(images_left, images_right, pattern_size, squa
     '''
     algorithm = cv2.CALIB_FIX_ASPECT_RATIO + cv2.CALIB_ZERO_TANGENT_DIST + cv2.CALIB_SAME_FOCAL_LENGTH + cv2.CALIB_RATIONAL_MODEL + cv2.CALIB_FIX_K3+ cv2.CALIB_FIX_K4+ cv2.CALIB_FIX_K5
     term = (cv2.TERM_CRITERIA_MAX_ITER+cv2.TERM_CRITERIA_EPS, 100, 1e-5)
-    res = cv2.stereoCalibrate(object_points, lr_image_points[0], lr_image_points[1], image_size, lr_camera_matrices[0], lr_dist_coefs[0], lr_camera_matrices[1], lr_dist_coefs[1], criteria=term, flags=algorithm)
+    #res = cv2.stereoCalibrate(object_points, lr_image_points[0], lr_image_points[1], image_size, lr_camera_matrices[0], lr_dist_coefs[0], lr_camera_matrices[1], lr_dist_coefs[1], criteria=term, flags=algorithm)
+    res = cv2.stereoCalibrate(object_points, lr_image_points[0], lr_image_points[1], lr_camera_matrices[0], lr_dist_coefs[0], lr_camera_matrices[1], lr_dist_coefs[1], image_size, criteria=term, flags=algorithm)
     return res
     
 def compute_rectification_transforms(intrinsics_left, intrinsics_right, image_size, rotation_matrix, translation_vector):
