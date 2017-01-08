@@ -1,0 +1,16 @@
+Python packages
+    numpy
+    pandas
+    matplotlib
+    scipy
+    PySide
+    enum34
+    pillow
+
+Software with Python interface
+    cv2
+    gi.repository.Aravis
+
+Very custom stuff - to be vendored
+    aravis
+    math3d
